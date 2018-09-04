@@ -1,4 +1,9 @@
-﻿@{
+﻿@using MBW.Http.AutoProxy
+@using Microsoft.AspNetCore.HttpOverrides
+@using Microsoft.Extensions.Primitives
+@inject AutoProxyStore AutoProxyStore
+
+@{
     ViewData["Title"] = "Demo";
 }
 
@@ -102,12 +107,29 @@
             <h3>Current headers</h3>
             <table class="table table-condensed">
                 <tbody>
-                    @foreach (var (key, value) in Context.Request.Headers.OrderBy(s => s.Key))
+                    @foreach ((string key, StringValues value) in Context.Request.Headers.OrderBy(s => s.Key))
                     {
                         <tr>
-                            <td><strong>@key</strong></td>
+                            <th>@key</th>
                             <td style="word-break: break-all">@value</td>
                         </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="well">
+            <h3>Current proxy config</h3>
+            <table class="table table-condensed">
+                <tbody>
+                    @foreach ((string service, IPNetwork[] ranges) in AutoProxyStore.GetServiceRanges())
+                    {
+                        foreach (IPNetwork range in ranges)
+                        {
+                            <tr>
+                                <td>@service</td>
+                                <td>@range.Prefix/@range.PrefixLength</td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

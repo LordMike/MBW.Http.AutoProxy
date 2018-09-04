@@ -95,5 +95,10 @@ namespace MBW.Http.AutoProxy
         {
             return _allRanges;
         }
+
+        public IEnumerable<KeyValuePair<string, IPNetwork[]>> GetServiceRanges()
+        {
+            return _ranges.ToList();
+        }
     }
 }
