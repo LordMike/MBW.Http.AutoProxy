@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "Demo";
+}
+
+<h2>
+    Updating proxy list, demo
+</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="well">
+            <h3>Current request</h3>
+            <table class="table table-condensed">
+                <tbody>
+                    <tr>
+                        <th>Request IP</th>
+                        <td style="word-break: break-all">
+                            @Context.Connection.RemoteIpAddress / @Context.Connection.RemotePort
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Proxied?
+                        </th>
+                        <td>
+                            @if (Context.Request.Headers.ContainsKey("X-Original-For"))
+                            {
+                                <div>
+                                    Yes. It originally came from <strong>@Context.Request.Headers["X-Original-For"]</strong>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    No.
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Proxied scheme?
+                        </th>
+                        <td>
+                            @if (Context.Request.Headers.ContainsKey("X-Original-Proto"))
+                            {
+                                <div>
+                                    Yes. It originally came with <strong>@Context.Request.Headers["X-Original-Proto"]</strong>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    No.
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="well">
+            <h3>Proxy config</h3>
+            <p>
+                This demo site has been configured with one or more proxy address sources. More specifically, the calls to the below code add support for Cloudflare (and add an updater for Cloudflares IP Ranges, should they ever change).
+            </p>
+            <p>
+                <pre>services.AddAutoProxyMiddleware()
+	.AddCloudflare()
+	.AddCloudflareUpdater();</pre>
+            </p>
+            <p>
+                Adding the AutoProxy middleware (first in the pipeline) makes it all work.
+            </p>
+            <p>
+                <pre>app.UseAutoProxyMiddleware();</pre>
+            </p>
+        </div>
+        <div class="well">
+            <h3>Modify proxy setup</h3>
+            <p>
+                Try altering the proxy config, in appsettings.json, to include your local addresses. Adding the following to your appsettings will change the configuration.
+            </p>
+            <p>
+                <pre>
+  "AutoProxy": {
+    "KnownRanges": [
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  }
+</pre>
+            </p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="well">
+            <h3>Current headers</h3>
+            <table class="table table-condensed">
+                <tbody>
+                    @foreach (var (key, value) in Context.Request.Headers.OrderBy(s => s.Key))
+                    {
+                        <tr>
+                            <td><strong>@key</strong></td>
+                            <td style="word-break: break-all">@value</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
