@@ -7,3 +7,9 @@ build:
   stage: build
   script:
   - dotnet build
+  - dotnet pack -c Release --include-symbols -o $CI_PROJECT_DIR/Build/
+  artifacts:
+    paths:
+    - Build/*.nupkg
+    expire_in: 1 week
+    
