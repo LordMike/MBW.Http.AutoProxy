@@ -14,7 +14,7 @@ namespace MBW.Http.AutoProxy
             _ranges = ranges;
         }
 
-        public void AddRanges(AutoProxyStore store)
+        public void AddRanges(IAutoProxyStore store)
         {
             store.ReplaceRanges(_service, _ranges);
         }

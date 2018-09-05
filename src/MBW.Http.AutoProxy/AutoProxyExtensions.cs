@@ -15,7 +15,7 @@ namespace MBW.Http.AutoProxy
             if (configure != null)
                 services.PostConfigure(configure);
 
-            services.TryAddSingleton<AutoProxyStore>();
+            services.TryAddSingleton<IAutoProxyStore, AutoProxyStore>();
 
             return new AutoProxyConfigurator(services);
         }

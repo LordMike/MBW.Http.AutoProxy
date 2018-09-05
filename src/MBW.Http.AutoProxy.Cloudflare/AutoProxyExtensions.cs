@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -34,7 +34,7 @@ namespace MBW.Http.AutoProxy.Cloudflare
 
                 services.AddSingleton<IHostedService>(provider => new CloudflareIpUpdater(
                     provider.GetRequiredService<ILogger<CloudflareIpUpdater>>(),
-                    provider.GetRequiredService<AutoProxyStore>(),
+                    provider.GetRequiredService<IAutoProxyStore>(),
                     provider.GetRequiredService<IOptionsMonitor<CloudflareUpdaterOptions>>(),
                     provider.GetRequiredService<IHttpClientFactory>().CreateClient(typeof(CloudflareIpUpdater).FullName)));
                 services.AddHttpClient(typeof(CloudflareIpUpdater).FullName, (provider, client) =>

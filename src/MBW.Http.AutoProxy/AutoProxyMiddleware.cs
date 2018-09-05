@@ -18,10 +18,10 @@ namespace MBW.Http.AutoProxy
         private readonly ILogger<AutoProxyMiddleware> _logger;
         private readonly ILoggerFactory _loggerFactory;
         private readonly RequestDelegate _next;
-        private readonly AutoProxyStore _autoProxyStore;
+        private readonly IAutoProxyStore _autoProxyStore;
         private ForwardedHeadersMiddleware _forwardedHeadersMiddleware;
 
-        public AutoProxyMiddleware(ILoggerFactory loggerFactory, RequestDelegate next, AutoProxyStore autoProxyStore)
+        public AutoProxyMiddleware(ILoggerFactory loggerFactory, RequestDelegate next, IAutoProxyStore autoProxyStore)
         {
             _logger = loggerFactory.CreateLogger<AutoProxyMiddleware>();
             _loggerFactory = loggerFactory;

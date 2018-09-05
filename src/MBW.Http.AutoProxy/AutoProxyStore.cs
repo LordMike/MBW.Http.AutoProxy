@@ -6,13 +6,13 @@ using Microsoft.Extensions.Options;
 
 namespace MBW.Http.AutoProxy
 {
-    public class AutoProxyStore
+    internal class AutoProxyStore : IAutoProxyStore
     {
         private const string DefaultService = "Default";
         private readonly Dictionary<string, IPNetwork[]> _ranges;
         private List<IPNetwork> _allRanges;
 
-        internal event Action OnIpRangesUpdate;
+        public event Action OnIpRangesUpdate;
 
         public AutoProxyStore(IOptionsMonitor<AutoProxyOptions> options, IEnumerable<AutoProxyInitialService> initialServices)
         {

@@ -15,7 +15,7 @@ namespace MBW.Http.AutoProxy.Cloudflare
     internal class CloudflareIpUpdater : IHostedService
     {
         private readonly ILogger<CloudflareIpUpdater> _logger;
-        private readonly AutoProxyStore _proxyStore;
+        private readonly IAutoProxyStore _proxyStore;
         private readonly IOptionsMonitor<CloudflareUpdaterOptions> _options;
         private readonly HttpClient _httpClient;
 
@@ -24,7 +24,7 @@ namespace MBW.Http.AutoProxy.Cloudflare
         private Task _executingTask;
         private CancellationTokenSource _cts;
 
-        internal CloudflareIpUpdater(ILogger<CloudflareIpUpdater> logger, AutoProxyStore proxyStore, IOptionsMonitor<CloudflareUpdaterOptions> options, HttpClient httpClient)
+        internal CloudflareIpUpdater(ILogger<CloudflareIpUpdater> logger, IAutoProxyStore proxyStore, IOptionsMonitor<CloudflareUpdaterOptions> options, HttpClient httpClient)
         {
             _logger = logger;
             _proxyStore = proxyStore;
