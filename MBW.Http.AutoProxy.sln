@@ -16,6 +16,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{35B1145C-00C6-45A2-9B92-5E0992B91A7E}"
 	ProjectSection(SolutionItems) = preProject
 		.gitlab-ci.yml = .gitlab-ci.yml
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Imports", "Imports", "{63654289-86AF-4DC5-A0ED-38F79FBBD648}"
+	ProjectSection(SolutionItems) = preProject
+		imports\SourceLink.targets = imports\SourceLink.targets
+		imports\Version.targets = imports\Version.targets
 	EndProjectSection
 EndProject
 Global

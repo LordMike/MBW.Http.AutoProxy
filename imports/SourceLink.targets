@@ -1,0 +1,31 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Package -->
+  <PropertyGroup>
+    <Authors>LordMike</Authors>
+    <PackageId>$(AssemblyName)</PackageId>
+    <Product>MBW.Http.AutoProxy</Product>
+    <Company>MBWarez</Company>
+    <RepositoryUrl>https://github.com/LordMike/MBW.Http.AutoProxy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseUrl>https://github.com/LordMike/MBW.Http.AutoProxy/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/LordMike/MBW.Http.AutoProxy</PackageProjectUrl>
+  </PropertyGroup>
+
+  <!-- Sourcelinking -->
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SourceLinkGitHubHost Include="scm.mbwarez.dk" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
+  </ItemGroup>
+
+  <Target Name="UseGithubSourcelinkRoot" AfterTargets="$(SourceControlManagerUrlTranslationTargets)">
+    <ItemGroup>
+      <SourceRoot Update="@(SourceRoot)">
+        <ScmRepositoryUrl>https://github.com/LordMike/MBW.Http.AutoProxy.git</ScmRepositoryUrl>
+      </SourceRoot>
+    </ItemGroup>
+  </Target>
+</Project>
