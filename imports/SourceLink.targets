@@ -1,14 +1,18 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Remove this at a later point, when Nuget has fixed the whole pdb thing -->
+  <ItemGroup>
+    <PackageReference Include="SourceLink.Copy.PdbFiles" Version="2.8.3" PrivateAssets="All" /> 
+  </ItemGroup>
+
   <!-- Package -->
   <PropertyGroup>
-    <Authors>LordMike</Authors>
-    <PackageId>$(AssemblyName)</PackageId>
-    <Product>MBW.Http.AutoProxy</Product>
-    <Company>MBWarez</Company>
     <RepositoryUrl>https://github.com/LordMike/MBW.Http.AutoProxy</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl>https://github.com/LordMike/MBW.Http.AutoProxy/blob/master/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/LordMike/MBW.Http.AutoProxy</PackageProjectUrl>
+
+    <DebugType>portable</DebugType> 
+    <DebugSymbols>true</DebugSymbols> 
   </PropertyGroup>
 
   <!-- Sourcelinking -->

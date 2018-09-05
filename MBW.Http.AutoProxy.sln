@@ -21,8 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Imports", "Imports", "{63654289-86AF-4DC5-A0ED-38F79FBBD648}"
 	ProjectSection(SolutionItems) = preProject
+		imports\Properties.targets = imports\Properties.targets
 		imports\SourceLink.targets = imports\SourceLink.targets
-		imports\Version.targets = imports\Version.targets
 	EndProjectSection
 EndProject
 Global
