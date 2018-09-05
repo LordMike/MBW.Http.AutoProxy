@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoSite", "src\demo\DemoSi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBW.Http.AutoProxy", "src\MBW.Http.AutoProxy\MBW.Http.AutoProxy.csproj", "{5720C4C4-2B51-4D7D-BDDD-23019A2BF76C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBW.Http.AutoProxy.Cloudflare", "src\MBW.Http.AutoProxy.Cloudflare\MBW.Http.AutoProxy.Cloudflare.csproj", "{A10CC34A-6AB5-4E0B-866B-0E2E707B8490}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBW.Http.AutoProxy.Cloudflare", "src\MBW.Http.AutoProxy.Cloudflare\MBW.Http.AutoProxy.Cloudflare.csproj", "{A10CC34A-6AB5-4E0B-866B-0E2E707B8490}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{35B1145C-00C6-45A2-9B92-5E0992B91A7E}"
+	ProjectSection(SolutionItems) = preProject
+		.gitlab-ci.yml = .gitlab-ci.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
