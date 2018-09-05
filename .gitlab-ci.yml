@@ -18,6 +18,6 @@ publish:
   stage: publish
   when: manual
   script:
-  - dotnet nuget push -k $NUGET_KEY $CI_PROJECT_DIR/Build/*.nupkg
+  - dotnet nuget push -k $NUGET_KEY $CI_PROJECT_DIR/Build/*.nupkg -s https://api.nuget.org/v3/index.json
   dependencies:
   - build
