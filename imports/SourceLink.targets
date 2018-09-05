@@ -8,8 +8,6 @@
   <PropertyGroup>
     <RepositoryUrl>https://github.com/LordMike/MBW.Http.AutoProxy</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageLicenseUrl>https://github.com/LordMike/MBW.Http.AutoProxy/blob/master/LICENSE.txt</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/LordMike/MBW.Http.AutoProxy</PackageProjectUrl>
 
     <DebugType>portable</DebugType> 
     <DebugSymbols>true</DebugSymbols> 
