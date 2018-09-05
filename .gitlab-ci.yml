@@ -18,6 +18,7 @@ publish:
   stage: publish
   when: manual
   script:
-  - dotnet nuget push -k $NUGET_KEY $CI_PROJECT_DIR/Build/*.nupkg -s https://api.nuget.org/v3/index.json
+  - find $CI_PROJECT_DIR/Build/ -type f -name "*.nupkg" -not -name "*.symbols.nupkg" -exec dotnet nuget push -k $NUGET_KEY -s https://api.nuget.org/v3/index.json {} \;
+  - find $CI_PROJECT_DIR/Build/ -type f -name "*.symbols.nupkg" -exec dotnet nuget push -k $NUGET_KEY -s https://nuget.smbsrc.net/ {} \;
   dependencies:
   - build
