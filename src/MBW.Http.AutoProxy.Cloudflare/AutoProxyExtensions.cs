@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Polly;
 
 namespace MBW.Http.AutoProxy.Cloudflare
@@ -21,24 +22,20 @@ namespace MBW.Http.AutoProxy.Cloudflare
             return configurator;
         }
 
-        public static IAutoProxyConfigurator AddCloudflareUpdater(this IAutoProxyConfigurator configurator)
-        {
-            return AddCloudflareUpdater(configurator, TimeSpan.FromHours(12));
-        }
-
-        public static IAutoProxyConfigurator AddCloudflareUpdater(this IAutoProxyConfigurator configurator, TimeSpan updateInterval)
+        public static IAutoProxyConfigurator AddCloudflareUpdater(this IAutoProxyConfigurator configurator, Action<CloudflareUpdaterOptions> configureOptions = null)
         {
             if (configurator == null)
                 throw new ArgumentNullException(nameof(configurator));
-            if (updateInterval <= TimeSpan.Zero)
-                throw new ArgumentOutOfRangeException(nameof(updateInterval));
 
             configurator.AddServices(services =>
             {
+                if (configureOptions != null)
+                    services.PostConfigure(configureOptions);
+
                 services.AddSingleton<IHostedService>(provider => new CloudflareIpUpdater(
                     provider.GetRequiredService<ILogger<CloudflareIpUpdater>>(),
                     provider.GetRequiredService<AutoProxyStore>(),
-                    updateInterval,
+                    provider.GetRequiredService<IOptionsMonitor<CloudflareUpdaterOptions>>(),
                     provider.GetRequiredService<IHttpClientFactory>().CreateClient(typeof(CloudflareIpUpdater).FullName)));
                 services.AddHttpClient(typeof(CloudflareIpUpdater).FullName, (provider, client) =>
                     {

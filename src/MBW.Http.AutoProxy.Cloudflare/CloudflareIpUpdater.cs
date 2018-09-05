@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace MBW.Http.AutoProxy.Cloudflare
 {
@@ -14,19 +16,19 @@ namespace MBW.Http.AutoProxy.Cloudflare
     {
         private readonly ILogger<CloudflareIpUpdater> _logger;
         private readonly AutoProxyStore _proxyStore;
-        private readonly TimeSpan _interval;
+        private readonly IOptionsMonitor<CloudflareUpdaterOptions> _options;
         private readonly HttpClient _httpClient;
 
-        // Example untested base class code kindly provided by David Fowler: https://gist.github.com/davidfowl/a7dd5064d9dcf35b6eae1a7953d615e3
+        // Provided by David Fowler: https://gist.github.com/davidfowl/a7dd5064d9dcf35b6eae1a7953d615e3
 
         private Task _executingTask;
         private CancellationTokenSource _cts;
 
-        internal CloudflareIpUpdater(ILogger<CloudflareIpUpdater> logger, AutoProxyStore proxyStore, TimeSpan interval, HttpClient httpClient)
+        internal CloudflareIpUpdater(ILogger<CloudflareIpUpdater> logger, AutoProxyStore proxyStore, IOptionsMonitor<CloudflareUpdaterOptions> options, HttpClient httpClient)
         {
             _logger = logger;
             _proxyStore = proxyStore;
-            _interval = interval;
+            _options = options;
             _httpClient = httpClient;
         }
 
@@ -63,7 +65,10 @@ namespace MBW.Http.AutoProxy.Cloudflare
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(_interval, cancellationToken);
+                await Task.Delay(_options.CurrentValue.Interval, cancellationToken);
+
+                if (!_options.CurrentValue.Enabled)
+                    continue;
 
                 _logger.LogDebug("Beginning Cloudflare IP Retrieval");
 
@@ -91,7 +96,7 @@ namespace MBW.Http.AutoProxy.Cloudflare
                         _proxyStore.ReplaceRanges(Constants.ServiceName, subnets);
 
                         _logger.LogInformation("Successfully retrieved {RangeCount} new Cloudflare IP Ranges", subnets.Count);
-                        _logger.LogDebug("New Cloudflare Ranges: {Ranges}", subnets);
+                        _logger.LogDebug("New Cloudflare Ranges: {Ranges}", subnets.Select(s => $"{s.Prefix}/{s.PrefixLength}"));
                     }
                     else
                     {
