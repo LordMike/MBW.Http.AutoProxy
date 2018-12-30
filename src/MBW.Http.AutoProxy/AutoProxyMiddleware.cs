@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -12,46 +13,72 @@ namespace MBW.Http.AutoProxy
 {
     internal class AutoProxyMiddleware
     {
-        public const string HeaderXForwardedFor = "X-Forwarded-For";
-        public const string HeaderXForwardedProto = "X-Forwarded-Proto";
+        public static readonly string HeaderXForwardedFor = ForwardedHeadersDefaults.XForwardedForHeaderName;
+        public static readonly string HeaderXForwardedProto = ForwardedHeadersDefaults.XForwardedProtoHeaderName;
+        public static readonly string HeaderXForwardedHost = ForwardedHeadersDefaults.XForwardedHostHeaderName;
 
         private readonly ILogger<AutoProxyMiddleware> _logger;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly IOptionsMonitor<AutoProxyOptions> _options;
         private readonly RequestDelegate _next;
         private readonly IAutoProxyStore _autoProxyStore;
         private ForwardedHeadersMiddleware _forwardedHeadersMiddleware;
 
-        public AutoProxyMiddleware(ILoggerFactory loggerFactory, RequestDelegate next, IAutoProxyStore autoProxyStore)
+        public AutoProxyMiddleware(ILoggerFactory loggerFactory, IOptionsMonitor<AutoProxyOptions> options, RequestDelegate next, IAutoProxyStore autoProxyStore)
         {
             _logger = loggerFactory.CreateLogger<AutoProxyMiddleware>();
             _loggerFactory = loggerFactory;
+            _options = options;
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _autoProxyStore = autoProxyStore;
 
-            autoProxyStore.OnIpRangesUpdate += CloudflareIpsOnOnIpRangesUpdate;
+            // Register event handlers
+            _options.OnChange(_ => OnIpRangesUpdate());
+            autoProxyStore.OnIpRangesUpdate += OnIpRangesUpdate;
 
             ReplaceKnownProxies(autoProxyStore.GetRanges());
         }
 
-        private void CloudflareIpsOnOnIpRangesUpdate()
+        private void OnIpRangesUpdate()
         {
             ReplaceKnownProxies(_autoProxyStore.GetRanges());
         }
 
         public void ReplaceKnownProxies(IEnumerable<IPNetwork> ranges)
         {
+            AutoProxyOptions options = _options.CurrentValue;
+
             ForwardedHeadersOptions forwardedHeadersOptions = new ForwardedHeadersOptions
             {
                 ForwardedForHeaderName = HeaderXForwardedFor,
                 ForwardedProtoHeaderName = HeaderXForwardedProto,
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+                ForwardedHostHeaderName = HeaderXForwardedHost,
+                ForwardedHeaders = ForwardedHeaders.None
             };
+
+            if (options.UseForwardedFor)
+                forwardedHeadersOptions.ForwardedHeaders |= ForwardedHeaders.XForwardedFor;
+
+            if (options.UseForwardedHost)
+                forwardedHeadersOptions.ForwardedHeaders |= ForwardedHeaders.XForwardedHost;
+
+            if (options.UseForwardedProto)
+                forwardedHeadersOptions.ForwardedHeaders |= ForwardedHeaders.XForwardedProto;
 
             forwardedHeadersOptions.KnownNetworks.Clear();
             forwardedHeadersOptions.KnownProxies.Clear();
 
             foreach (IPNetwork network in ranges)
+            {
                 forwardedHeadersOptions.KnownNetworks.Add(network);
+
+                // Convert IPv4 addresses to IPv6 if needed
+                if (!options.AutoConvertIPv4ToIPv6 || network.Prefix.AddressFamily != AddressFamily.InterNetwork)
+                    continue;
+
+                IPNetwork newNetwork = new IPNetwork(network.Prefix.MapToIPv6(), network.PrefixLength + 96);
+                forwardedHeadersOptions.KnownNetworks.Add(newNetwork);
+            }
 
             _logger.LogInformation("Changing auto proxy networks to {Networks}", forwardedHeadersOptions.KnownNetworks.Select(s => $"{s.Prefix}/{s.PrefixLength}"));
 
