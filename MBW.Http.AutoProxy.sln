@@ -19,10 +19,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Imports", "Imports", "{63654289-86AF-4DC5-A0ED-38F79FBBD648}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "imports", "imports", "{63654289-86AF-4DC5-A0ED-38F79FBBD648}"
 	ProjectSection(SolutionItems) = preProject
-		imports\Properties.targets = imports\Properties.targets
-		imports\SourceLink.targets = imports\SourceLink.targets
+		imports\_Properties.targets = imports\_Properties.targets
+		imports\_SourceLink.targets = imports\_SourceLink.targets
+		imports\Library.targets = imports\Library.targets
+		imports\Test.targets = imports\Test.targets
 	EndProjectSection
 EndProject
 Global
@@ -52,6 +54,7 @@ Global
 		{F787BF00-1E5D-4D73-A91F-2253B5919643} = {6E93E792-7D9D-4E66-911C-81C6A296D3CF}
 		{5720C4C4-2B51-4D7D-BDDD-23019A2BF76C} = {9E975A94-9A4E-42CE-B3E3-864A53DA406E}
 		{A10CC34A-6AB5-4E0B-866B-0E2E707B8490} = {9E975A94-9A4E-42CE-B3E3-864A53DA406E}
+		{63654289-86AF-4DC5-A0ED-38F79FBBD648} = {35B1145C-00C6-45A2-9B92-5E0992B91A7E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6510657F-F643-4FCA-9A9C-3CB0DDA5F9C8}

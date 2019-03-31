@@ -7,18 +7,20 @@ stages:
 build:
   stage: build
   script:
-  - dotnet build
+  - dotnet test
   - dotnet pack -c Release --include-symbols -o $CI_PROJECT_DIR/Build/
   artifacts:
     paths:
     - Build/*.nupkg
+    - Build/*.snupkg
     expire_in: 1 week
 
 publish:
   stage: publish
-  when: manual
+  only:
+    - nuget
   script:
-  - find $CI_PROJECT_DIR/Build/ -type f -name "*.nupkg" -not -name "*.symbols.nupkg" -exec dotnet nuget push -k $NUGET_KEY -s https://api.nuget.org/v3/index.json {} \;
-  # - find $CI_PROJECT_DIR/Build/ -type f -name "*.symbols.nupkg" -exec dotnet nuget push -k $NUGET_KEY -s https://nuget.smbsrc.net/ {} \;
+  - cd $CI_PROJECT_DIR/Build/
+  - dotnet nuget push *.nupkg -s https://api.nuget.org/v3/index.json -k $NUGET_KEY
   dependencies:
   - build
