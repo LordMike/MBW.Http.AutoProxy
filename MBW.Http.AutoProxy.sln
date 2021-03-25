@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2016
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9E975A94-9A4E-42CE-B3E3-864A53DA406E}"
 EndProject
@@ -15,16 +15,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBW.Http.AutoProxy.Cloudfla
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{35B1145C-00C6-45A2-9B92-5E0992B91A7E}"
 	ProjectSection(SolutionItems) = preProject
-		.gitlab-ci.yml = .gitlab-ci.yml
+		Directory.Build.props = Directory.Build.props
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "imports", "imports", "{63654289-86AF-4DC5-A0ED-38F79FBBD648}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Imports", "_Imports", "{63654289-86AF-4DC5-A0ED-38F79FBBD648}"
 	ProjectSection(SolutionItems) = preProject
-		imports\_Properties.targets = imports\_Properties.targets
-		imports\_SourceLink.targets = imports\_SourceLink.targets
-		imports\Library.targets = imports\Library.targets
-		imports\Test.targets = imports\Test.targets
+		_Imports\Local.targets = _Imports\Local.targets
+		_Imports\Test.targets = _Imports\Test.targets
 	EndProjectSection
 EndProject
 Global

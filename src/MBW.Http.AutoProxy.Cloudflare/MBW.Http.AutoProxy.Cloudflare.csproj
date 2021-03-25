@@ -1,11 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\imports\Library.targets" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>
-      Cloudflare-specific setup and updater for MBW.Http.AutoProxy
-    </Description>
+    <Description>Cloudflare-specific setup and updater for MBW.Http.AutoProxy</Description>
   </PropertyGroup>
 
   <ItemGroup>
