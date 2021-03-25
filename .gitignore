@@ -1,4 +1,8 @@
 .vs/
 bin/
 obj/
+Build/
+
+# Files for local dev
 *.user
+*.local.json
