@@ -1,5 +1,6 @@
+# MBW.Http.AutoProxy [![Generic Build](https://github.com/LordMike/MBW.Http.AutoProxy/actions/workflows/dotnet.yml/badge.svg)](https://github.com/LordMike/MBW.Http.AutoProxy/actions/workflows/dotnet.yml) [![Nuget](https://img.shields.io/nuget/v/MBW.Http.AutoProxy)](https://www.nuget.org/packages/MBW.Http.AutoProxy)
 
-A solution to read in `X-Forward-For` and `X-Forwarded-Proto` from one or more trusted proxies.
+A utility to ease configuration of proxy middlewares in ASP.Net, to read in `X-Forward-For` and `X-Forwarded-Proto` from one or more trusted proxies.
 
 ### Features
 
