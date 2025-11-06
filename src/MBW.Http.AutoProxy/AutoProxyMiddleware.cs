@@ -53,7 +53,8 @@ namespace MBW.Http.AutoProxy
                 ForwardedForHeaderName = HeaderXForwardedFor,
                 ForwardedProtoHeaderName = HeaderXForwardedProto,
                 ForwardedHostHeaderName = HeaderXForwardedHost,
-                ForwardedHeaders = ForwardedHeaders.None
+                ForwardedHeaders = ForwardedHeaders.None,
+                ForwardLimit = options.ForwardLimit
             };
 
             if (options.UseForwardedFor)
