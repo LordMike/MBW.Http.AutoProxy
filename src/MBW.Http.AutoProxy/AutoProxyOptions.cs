@@ -31,12 +31,19 @@ namespace MBW.Http.AutoProxy
         /// </summary>
         public bool UseForwardedProto { get; set; }
 
+        /// <summary>
+        /// Max number of forwarded-for hops to accept
+        /// Default: 1
+        /// </summary>
+        public int ForwardLimit { get; set; }
+
         public AutoProxyOptions()
         {
             KnownRanges = new List<string>();
             AutoConvertIPv4ToIPv6 = true;
             UseForwardedFor = true;
             UseForwardedProto = true;
+            ForwardLimit = 1;
         }
     }
 }
