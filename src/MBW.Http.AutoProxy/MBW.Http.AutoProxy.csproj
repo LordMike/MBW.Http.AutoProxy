@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Proxy information consumer for ASP.Net. Reads X-Forwarded-For and X-Forwarded-Proto headers from trusted proxies, and replaces the client ip with this information.</Description>
   </PropertyGroup>
